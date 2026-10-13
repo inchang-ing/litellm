@@ -17537,7 +17537,10 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        /** Record Ui Event */
+        /**
+         * Record Ui Event
+         * @description Count one Admin UI page view or tab click. Events are dropped unless Page navigation is on
+         */
         post: operations["record_ui_event_telemetry_ui_events_post"];
         delete?: never;
         options?: never;
@@ -47230,6 +47233,15 @@ export interface components {
          * @enum {string}
          */
         UIAction: "view" | "click" | "submit";
+        /** UIEventAccepted */
+        UIEventAccepted: {
+            /**
+             * Accepted
+             * @default true
+             * @constant
+             */
+            accepted: true;
+        };
         /** UIEventBody */
         UIEventBody: {
             action: components["schemas"]["UIAction"];
@@ -73536,11 +73548,13 @@ export interface operations {
         };
         responses: {
             /** @description Successful Response */
-            204: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    "application/json": components["schemas"]["UIEventAccepted"];
+                };
             };
             /** @description Validation Error */
             422: {
